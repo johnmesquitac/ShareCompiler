@@ -1,4 +1,5 @@
 To run: 
-$ make;
+
+$ make
 
 $ ./cemenos testeGalvao.txt
