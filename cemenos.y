@@ -54,7 +54,7 @@ var-dec : INT identificador
           {
             $$ = newExpNode(TypeK);
             $$->attr.name = "INT";
-            $$->size = 1;
+            $$->size = 0;
             $$->child[0] = $2;
             $2->kind.exp = VarDeclK;
             $2->type = INTTYPE;
@@ -115,7 +115,7 @@ params : param-list { $$ = $1; }
           {
             $$ = newExpNode(TypeK);
             $$->attr.name = "VOID";
-            $$->size = 1;
+            $$->size = 0;
             $$->child[0] = NULL;
           }
        ;
@@ -139,14 +139,14 @@ param : tipo-espec identificador
           $$ = $1;
           $$->child[0] = $2;
           $2->kind.exp = ParamK;
-
+          $$->size = 0;
         }
       | tipo-espec identificador CE CD
         {
           $$ = $1;
-          $$->size = 0;
           $$->child[0] = $2;
-          $2->kind.exp = ParamK;
+          $2->kind.exp = ParamK; 
+          $$->size = 0;
         }
       ;
 
@@ -250,8 +250,8 @@ exp : var IGUAL exp
 var : identificador { $$ = $1; }
     | identificador CE exp CD
       {
-        $$ = $1;
-        $$->type = INTTYPE;
+        $$ = newExpNode(VetorK);
+        $$->attr.name = $1->attr.name;
         $$->child[0] = $3;
       }
     ;

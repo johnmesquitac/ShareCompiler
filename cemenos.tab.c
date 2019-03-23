@@ -1364,7 +1364,7 @@ yyreduce:
     {
             (yyval) = newExpNode(TypeK);
             (yyval)->attr.name = "INT";
-            (yyval)->size = 1;
+            (yyval)->size = 0;
             (yyval)->child[0] = (yyvsp[-1]);
             (yyvsp[-1])->kind.exp = VarDeclK;
             (yyvsp[-1])->type = INTTYPE;
@@ -1448,7 +1448,7 @@ yyreduce:
     {
             (yyval) = newExpNode(TypeK);
             (yyval)->attr.name = "VOID";
-            (yyval)->size = 1;
+            (yyval)->size = 0;
             (yyval)->child[0] = NULL;
           }
 #line 1455 "cemenos.tab.c" /* yacc.c:1646  */
@@ -1481,7 +1481,7 @@ yyreduce:
           (yyval) = (yyvsp[-1]);
           (yyval)->child[0] = (yyvsp[0]);
           (yyvsp[0])->kind.exp = ParamK;
-
+          (yyval)->size = 0;
         }
 #line 1487 "cemenos.tab.c" /* yacc.c:1646  */
     break;
@@ -1490,9 +1490,9 @@ yyreduce:
 #line 145 "cemenos.y" /* yacc.c:1646  */
     {
           (yyval) = (yyvsp[-3]);
-          (yyval)->size = 0;
           (yyval)->child[0] = (yyvsp[-2]);
-          (yyvsp[-2])->kind.exp = ParamK;
+          (yyvsp[-2])->kind.exp = ParamK; 
+          (yyval)->size = 0;
         }
 #line 1498 "cemenos.tab.c" /* yacc.c:1646  */
     break;
@@ -1687,8 +1687,8 @@ yyreduce:
   case 42:
 #line 252 "cemenos.y" /* yacc.c:1646  */
     {
-        (yyval) = (yyvsp[-3]);
-        (yyval)->type = INTTYPE;
+        (yyval) = newExpNode(VetorK);
+        (yyval)->attr.name = (yyvsp[-3])->attr.name;
         (yyval)->child[0] = (yyvsp[-1]);
       }
 #line 1695 "cemenos.tab.c" /* yacc.c:1646  */

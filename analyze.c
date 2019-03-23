@@ -93,21 +93,24 @@ static void insertNode( TreeNode * t)
                 break;
               case FunDeclK:
 
-               /* if (st_lookup(t->attr.name) == -1)
-                /* não encontrado na tabela, inserir*/
-                  st_insert(t->child[0]->attr.name,t->lineno,location++, "global",t->child[0]->type,FUN);
-                //else
+                if (st_lookup(t->attr.name) == -1){
+                 // printf("%s: não encontrado na tabela, inserir \n", t->child[0]->attr.name);
+                  st_insert(t->child[0]->attr.name,t->lineno,location++, "global",t->child[0]->type,FUN);}
+                else
                 /* encontrado na tabela, verificar escopo */
-                  //fprintf(listing,"Erro: Multiplas declarações da função %s. [%d]\n", t->child[0]->attr.name, t->lineno);
-                //break;
-              //default:
+                  fprintf(listing,"Erro: Multiplas declarações da função %s. [%d]\n", t->child[0]->attr.name, t->lineno);
+                break;
+              default:
                   break;
             }
           }
           break;
         case ParamK:
-          st_insert(t->attr.name,t->lineno,location++, escopo,INTTYPE, VAR);
+          st_insert(t->attr.name,t->lineno,location++,escopo,INTTYPE, VAR);
           break;
+        case VetorK:
+        st_insert(t->attr.name,t->lineno,0,escopo,INTTYPE, VAR);
+        break;
         case IdK:
           if(t->add != 1){
             if (st_lookup(t->attr.name) == -1){
@@ -115,27 +118,23 @@ static void insertNode( TreeNode * t)
               Error = TRUE;
             }
             else {
-              st_insert(t->attr.name,t->lineno,0, escopo,INTTYPE,FUN);
+              st_insert(t->attr.name,t->lineno,0,escopo,INTTYPE,FUN);
             }
           }
           break;
         case AtivK:
           if (st_lookup(t->attr.name) == -1){
             fprintf(listing,"Erro: A função %s não foi declarada. [%d]\n", t->attr.name, t->lineno);
-            st_insert(t->attr.name,t->lineno,0, escopo,NULLL,CALL);
+            st_insert(t->attr.name,t->lineno,0,escopo,NULLL,CALL);
             Error = TRUE;
           }
           else {
-            st_insert(t->attr.name,t->lineno,0, escopo,NULLL,CALL);
+            st_insert(t->attr.name,t->lineno,0,escopo,NULLL,CALL);
           }
           break;
         default:
           break;
-
       }
-      break;
-    default:
-      break;
   }
 }
 

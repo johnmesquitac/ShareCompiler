@@ -128,7 +128,7 @@ int st_lookup ( char * name )
   //printf("st_lookup\n");
   int h = hash(name);
   BucketList l =  hashTable[h];
-  while ((l != NULL) && (strcmp(name,l->name) != 0))
+  while ((l != NULL) && !(strcmp(name,l->name) == 0))
     l = l->next;
   if (l == NULL) return -1;
   else return l->memloc;
@@ -174,27 +174,37 @@ void printSymTab(FILE * listing)
         fprintf(listing,"%-14s ",l->name);
         fprintf(listing,"%-6s  ",l->escopo);
         char* id, *data;
-        if(l->IType == VAR){
-          id = "var";
+        switch(l->IType){
+          case VAR:
+            id = "var";
+          break;
+          case FUN:
+             id = "fun";
+          break;
+          case CALL:
+             id = "call";
+          break;
+          case VET:
+            id= "vet";
+          break;
+          default:
+          break;
         }
-        else if(l->IType == FUN){
-          id = "fun";
-        }
-        else if(l->IType == CALL){
-          id = "call";
-        }
-        if(l->Dtype == INTTYPE){
-          data = "INT";
-        }
-        else if(l->Dtype == VOIDTYPE){
-          data = "VOID";
-        }
-        else if(l->Dtype == NULLL){
-          data = "null";
+        switch(l->Dtype){
+          case INTTYPE:
+            data= "INT";
+          break;
+          case VOIDTYPE:
+            data= "VOID";
+          break;
+          case NULLL:
+            data = "null";
+          break;
+          default:
+          break;
         }
         fprintf(listing,"%-7s  ",id);
         fprintf(listing,"%-8s  ",data);
-
         while (t != NULL)
         { fprintf(listing,"%3d; ",t->lineno);
           t = t->next;

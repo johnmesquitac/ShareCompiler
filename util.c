@@ -169,11 +169,17 @@ static void printSpaces(void)
            break;
          case TypeK:
            if(tree->size == 0)
-             fprintf(listing,"Tipo: %s*\n",tree->attr.name);
+             fprintf(listing,"Tipo: %s\n",tree->attr.name);
            else
              fprintf(listing,"Tipo: %s[%d]\n",tree->attr.name,tree->size);
            break;
-         default:
+          case ParamK:
+           fprintf(listing,"Id: %s\n",tree->attr.name);
+           break; 
+          case VetorK:
+          fprintf(listing, "VETOR: %s\n", tree->attr.name);
+	        break;
+          default:
            fprintf(listing,"Unknown ExpNode kind\n");
            break;
        }
